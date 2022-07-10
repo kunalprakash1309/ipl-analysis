@@ -1,0 +1,23 @@
+.home-container {
+  padding: 20px 40px;
+  margin-top: 80px;
+}
+
+.home-heading {
+  text-align: center;
+  font-size: 36px;
+  margin-top: 0;
+}
+
+.season-details-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+}
+
+
+@media screen and (max-width:500px) {
+  .season-details-container {
+    grid-template-columns: 1fr;
+  }
+}
