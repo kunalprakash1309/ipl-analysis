@@ -1,30 +1,27 @@
-import { useEffect, useState } from "react"
 import MatchCard from "../../components/match-card/match-card.component"
 import './home.styles.scss'
 
-const Home = ({matchData, season}) => {
-  const [matches, setMatches] = useState([])
-  useEffect(() => {
-    const data = matchData.filter((match) => {
-      return match.season === season
-    })
-    setMatches(data)
-  }, [season, matchData])
 
+const Home = ({matchData, season}) => {
   return (
     <div className="home-container">
       <h2 className="home-heading">{season}</h2>
       <div className="season-details-container">
+
+        {/* checking if matchData is present or not.
+            If present the run map on desired season of datas.
+         */}
         {
-          matches?.map((match) => (
+          matchData 
+          ? 
+          matchData[season].map((match) => (
             <MatchCard key={match.id} matchDetail={match}/>
           ))
+          :
+          null
         }
       </div>
     </div>
-    // <Routes>
-    //   <Route path=":year" element={<}>
-    // </Routes>
   )
 }
 

@@ -1,5 +1,3 @@
-import { Fragment } from 'react';
-
 import logo from '../../assests/logo.svg'
 
 import './navigation.styles.scss'

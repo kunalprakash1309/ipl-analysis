@@ -1,41 +1,35 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePapaParse } from 'react-papaparse';
 import './App.css';
 import NavigationBar from './routes/navigation/navigation.component';
 import Home from './routes/home/home.component';
 import fetchData from './utils/fetchData.utils';
+import dataToObject from './utils/dataModification';
 
 
 const App = () => {
 
+  // for converting csv to json array
   const { readString } = usePapaParse()
 
-  const [matchData, setMatchData] = useState([])
+  const [matchData, setMatchData] = useState(null)
   const [season, setSeason] = useState("2017")
 
-  const dataToObject = (results) => {
-    const header = results[0]
-    const sortedData = results.slice(1, results.length -1).map((match) => {
-      const accum = match.reduce((acc, data, idx) => {
-        acc[header[idx]] = data
-        return acc
-      }, {})
-      return accum
-    })
-    setMatchData(sortedData)
-  }
   
   const getMatchesData = async () => {
-    const data = await fetchData()
+    const csvString = await fetchData()
 
-    readString(data, {
-      worker: true,
-      complete: (results) => {
-        dataToObject(results.data)
-      }
-    })
+    const { data } = readString(csvString)
+
+    // passing data to modify the data into our favourable structure
+    const finalResult = dataToObject(data)
+
+    // matchData = our required structure of data
+    setMatchData(finalResult)
+    
   }
 
+  // run the code inside useEffect when the app mount first
   useEffect(() => {
     getMatchesData()
   }, [])
